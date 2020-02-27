@@ -31,6 +31,9 @@ public class RepoDataRepository {
 
     private void setData() {
         dataSet.add(new RepoData("Test"));
+        dataSet.add(new RepoData("Test2"));
+        dataSet.add(new RepoData("Test3"));
+        dataSet.add(new RepoData("Test4"));
     }
 
 }

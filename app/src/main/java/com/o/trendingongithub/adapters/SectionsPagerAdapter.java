@@ -30,7 +30,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a TrendingRepositoriesFragment (defined as a static inner class below).
-        return TrendingRepositoriesFragment.newInstance(position + 1);
+        switch (position) {
+            case 0:
+                return new TrendingRepositoriesFragment();
+            case 1:
+                //TODO: return new Fragment();
+            default:
+                return null;
+        }
     }
 
     @Nullable
