@@ -1,4 +1,4 @@
-package com.o.trendingongithub.ui.main;
+package com.o.trendingongithub.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,18 +13,22 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.o.trendingongithub.R;
+import com.o.trendingongithub.model.RepoData;
+import com.o.trendingongithub.viewModel.PageViewModel;
+
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlaceholderFragment extends Fragment {
+public class TrendingRepositoriesFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
 
-    public static PlaceholderFragment newInstance(int index) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+    public static TrendingRepositoriesFragment newInstance(int index) {
+        TrendingRepositoriesFragment fragment = new TrendingRepositoriesFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -35,11 +39,7 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        pageViewModel.setIndex(index);
+        pageViewModel.init();
     }
 
     @Override
@@ -48,10 +48,11 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         final TextView textView = root.findViewById(R.id.section_label);
-        pageViewModel.getText().observe(this, new Observer<String>() {
+        pageViewModel.getRepoData().observe(getViewLifecycleOwner(), new Observer<List<RepoData>>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onChanged(List<RepoData> repoData) {
+                //TODO: replace with notify dataset changes
+                textView.setText(repoData.get(0).getName());
             }
         });
         return root;

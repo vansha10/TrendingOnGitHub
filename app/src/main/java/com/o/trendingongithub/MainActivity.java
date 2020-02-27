@@ -9,11 +9,10 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.o.trendingongithub.ui.main.SectionsPagerAdapter;
+import com.o.trendingongithub.adapters.SectionsPagerAdapter;
+import com.o.trendingongithub.viewModel.PageViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
