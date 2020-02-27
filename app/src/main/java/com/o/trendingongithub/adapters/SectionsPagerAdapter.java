@@ -11,10 +11,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.o.trendingongithub.R;
 import com.o.trendingongithub.fragments.TrendingRepositoriesFragment;
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
@@ -28,8 +24,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a TrendingRepositoriesFragment (defined as a static inner class below).
         switch (position) {
             case 0:
                 return new TrendingRepositoriesFragment();
@@ -48,7 +42,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
         return 2;
     }
 }
