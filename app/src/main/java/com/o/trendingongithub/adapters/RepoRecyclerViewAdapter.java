@@ -65,4 +65,10 @@ public class RepoRecyclerViewAdapter extends RecyclerView.Adapter<RepoRecyclerVi
             return 0;
         return mDataset.size();
     }
+
+    public void updateList(List<RepoData> newList) {
+        mDataset.clear();
+        mDataset.addAll(newList);
+        notifyDataSetChanged();
+    }
 }

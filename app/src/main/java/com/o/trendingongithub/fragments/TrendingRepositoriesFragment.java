@@ -3,9 +3,13 @@ package com.o.trendingongithub.fragments;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,11 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.o.trendingongithub.R;
 import com.o.trendingongithub.adapters.RepoRecyclerViewAdapter;
 import com.o.trendingongithub.model.RepoData;
 import com.o.trendingongithub.viewModel.RepoViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrendingRepositoriesFragment extends Fragment {
@@ -27,10 +33,11 @@ public class TrendingRepositoriesFragment extends Fragment {
     private View root;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RepoRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ProgressBar progressBar;
     private List<RepoData> dataset;
+    private MaterialSearchView searchView;
 
     private RepoViewModel repoViewModel;
 
@@ -40,6 +47,7 @@ public class TrendingRepositoriesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         repoViewModel = ViewModelProviders.of(getActivity()).get(RepoViewModel.class);
         repoViewModel.init();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -47,6 +55,7 @@ public class TrendingRepositoriesFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_trending_repo, container, false);
+
         repoViewModel.getRepoData().observe(getViewLifecycleOwner(), new Observer<List<RepoData>>() {
             @Override
             public void onChanged(List<RepoData> repoData) {
@@ -68,6 +77,7 @@ public class TrendingRepositoriesFragment extends Fragment {
             }
         });
         initRecyclerView();
+        initSearchView();
         return root;
     }
 
@@ -84,4 +94,57 @@ public class TrendingRepositoriesFragment extends Fragment {
 
         progressBar = root.findViewById(R.id.progress_bar);
     }
+
+    private void initSearchView() {
+        View view = getActivity().findViewById(R.id.viewid);
+        searchView = view.findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                filterData(query);
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+                mAdapter.updateList(repoViewModel.getRepoData().getValue());
+            }
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+    }
+
+    private void filterData(String text) {
+        List<RepoData> temp = new ArrayList<>();
+        for (RepoData rd : dataset) {
+            if(rd.getName().toLowerCase().contains(text) ||
+                    rd.getAuthor().toLowerCase().contains(text))
+                temp.add(rd);
+        }
+        mAdapter.updateList(temp);
+    }
+
+
 }
