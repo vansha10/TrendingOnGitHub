@@ -1,7 +1,6 @@
 package com.o.trendingongithub.dataRepository;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -14,21 +13,16 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RepoDataRepository {
 
     private static RepoDataRepository instance;
     private List<RepoData> dataSet = new ArrayList<>();
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private GithubAPI githubAPI;
 
     public RepoDataRepository() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://github-trending-api.now.sh/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        githubAPI = retrofit.create(GithubAPI.class);
+        githubAPI = RetrofitService.createService(GithubAPI.class);
     }
 
     public static RepoDataRepository getInstance() {
@@ -40,12 +34,15 @@ public class RepoDataRepository {
 
     public MutableLiveData<List<RepoData>> getRepoData() {
 
+        isLoading.setValue(true);
+
         final MutableLiveData<List<RepoData>> mRepoData = new MutableLiveData<>();
         Call<List<RepoData>> call = githubAPI.getRepositories();
 
         call.enqueue(new Callback<List<RepoData>>() {
             @Override
             public void onResponse(Call<List<RepoData>> call, Response<List<RepoData>> response) {
+                isLoading.setValue(false);
                 if (!response.isSuccessful()) {
                     //TODO: error message
                     Log.d("retrofit",response.toString());
@@ -53,7 +50,6 @@ public class RepoDataRepository {
                     //dataSet = response.body();
                     mRepoData.setValue(response.body());
                     Log.d("retrofit", response.toString());
-
                 }
             }
 
@@ -61,14 +57,19 @@ public class RepoDataRepository {
             public void onFailure(Call<List<RepoData>> call, Throwable t) {
                 //TODO: error message
                 Log.d("retrofit 123", t.getMessage());
+                isLoading.setValue(false);
             }
         });;
         if (mRepoData != null) {
-            dataSet.add(new RepoData("loading","","","",-1));
+            //placeholder data
+            dataSet.add(new RepoData("","","","", "", "", 0, 0));
             mRepoData.setValue(dataSet);
         }
         return mRepoData;
     }
 
+    public MutableLiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
 
 }

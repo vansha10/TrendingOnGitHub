@@ -1,17 +1,25 @@
 package com.o.trendingongithub.model;
 
 public class RepoData {
+
     private String name;
     private String author;
     private String url;
-    private String avatarUrl;
+    private String avatar;
+    private String description;
+    private String language;
     private long stars;
-    public RepoData(String name, String author, String url, String avatarUrl, long stars) {
+    private long forks;
+
+    public RepoData(String name, String author, String url, String avatarUrl, String description, String language, long stars, long forks) {
         this.name = name;
         this.author = author;
         this.url = url;
-        this.avatarUrl = avatarUrl;
+        this.avatar = avatarUrl;
+        this.description = description;
+        this.language = language;
         this.stars = stars;
+        this.forks = forks;
     }
     public String getName() {
         return name;
@@ -38,11 +46,11 @@ public class RepoData {
     }
 
     public String getAvatarUrl() {
-        return avatarUrl;
+        return avatar;
     }
 
     public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+        this.avatar = avatarUrl;
     }
 
     public long getStars() {
@@ -51,5 +59,29 @@ public class RepoData {
 
     public void setStars(long stars) {
         this.stars = stars;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public long getForks() {
+        return forks;
+    }
+
+    public void setForks(long forks) {
+        this.forks = forks;
     }
 }

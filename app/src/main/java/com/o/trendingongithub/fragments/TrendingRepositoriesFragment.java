@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.o.trendingongithub.R;
 import com.o.trendingongithub.adapters.RecyclerViewAdapter;
 import com.o.trendingongithub.model.RepoData;
@@ -27,6 +29,7 @@ public class TrendingRepositoriesFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private ProgressBar progressBar;
     private List<RepoData> dataset;
 
     private PageViewModel pageViewModel;
@@ -51,6 +54,17 @@ public class TrendingRepositoriesFragment extends Fragment {
                 dataset.clear();
                 dataset.addAll(repoData);
                 mAdapter.notifyDataSetChanged();
+
+            }
+        });
+        pageViewModel.getIsLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                }
             }
         });
         initRecyclerView();
@@ -64,7 +78,10 @@ public class TrendingRepositoriesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         dataset = pageViewModel.getRepoData().getValue();
-        mAdapter = new RecyclerViewAdapter(dataset);
+        //sending Glide object here itself for displaying avatar and better lifecycle management
+        mAdapter = new RecyclerViewAdapter(Glide.with(this), dataset);
         recyclerView.setAdapter(mAdapter);
+
+        progressBar = root.findViewById(R.id.progress_bar);
     }
 }

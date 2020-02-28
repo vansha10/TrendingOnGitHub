@@ -14,6 +14,7 @@ public class PageViewModel extends ViewModel {
 
     private MutableLiveData<List<RepoData>> mRepoData;
     private RepoDataRepository mRepo;
+    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     public void init() {
         if (mRepoData != null) {
@@ -25,5 +26,10 @@ public class PageViewModel extends ViewModel {
 
     public LiveData<List<RepoData>> getRepoData() {
         return mRepoData;
+    }
+
+    public LiveData<Boolean> getIsLoading() {
+        isLoading = mRepo.getIsLoading();
+        return isLoading;
     }
 }
