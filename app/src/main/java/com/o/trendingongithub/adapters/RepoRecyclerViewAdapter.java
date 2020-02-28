@@ -8,14 +8,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.o.trendingongithub.R;
 import com.o.trendingongithub.model.RepoData;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RepoRecyclerViewAdapter extends RecyclerView.Adapter<RepoRecyclerViewAdapter.MyViewHolder> {
     private List<RepoData> mDataset;
     private final RequestManager glide;
 
@@ -34,17 +33,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public RecyclerViewAdapter(RequestManager glide, List<RepoData> myDataset) {
+    public RepoRecyclerViewAdapter(RequestManager glide, List<RepoData> myDataset) {
         this.glide = glide;
         mDataset = myDataset;
     }
 
     @Override
-    public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public RepoRecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                   int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.repo_list_item, parent, false);
 
 
         MyViewHolder vh = new MyViewHolder(v);

@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.o.trendingongithub.Utils.GithubAPI;
-import com.o.trendingongithub.model.RepoData;
+import com.o.trendingongithub.model.DeveloperData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,63 +14,59 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RepoDataRepository {
+public class DeveloperDataRepository {
 
-    private static RepoDataRepository instance;
-    MutableLiveData<List<RepoData>> mRepoData = new MutableLiveData<>();
-    private List<RepoData> dataSet = new ArrayList<>();
+    private static DeveloperDataRepository instance;
+    MutableLiveData<List<DeveloperData>> developerData = new MutableLiveData<>();
+    private List<DeveloperData> dataset = new ArrayList<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private GithubAPI githubAPI;
 
-    public RepoDataRepository() {
-        //placeholder data
-        dataSet.add(new RepoData("","","","", "", "", 0, 0));
-        mRepoData.setValue(dataSet);
+    public DeveloperDataRepository() {
+        //placeholder values
+        dataset.add(new DeveloperData("","","",""));
+        developerData.setValue(dataset);
         githubAPI = RetrofitService.createService(GithubAPI.class);
     }
 
-    public static RepoDataRepository getInstance() {
+    public static DeveloperDataRepository getInstance() {
         if (instance == null) {
-            instance = new RepoDataRepository();
+            instance = new DeveloperDataRepository();
         }
         return instance;
     }
 
-    public MutableLiveData<List<RepoData>> getRepoData() {
+    public MutableLiveData<List<DeveloperData>> getDeveloperData() {
 
         isLoading.setValue(true);
 
-        Call<List<RepoData>> call = githubAPI.getRepositories();
+        Call<List<DeveloperData>> call = githubAPI.getDevelopers();
 
-        call.enqueue(new Callback<List<RepoData>>() {
+        call.enqueue(new Callback<List<DeveloperData>>() {
             @Override
-            public void onResponse(Call<List<RepoData>> call, Response<List<RepoData>> response) {
+            public void onResponse(Call<List<DeveloperData>> call, Response<List<DeveloperData>> response) {
                 isLoading.setValue(false);
                 if (!response.isSuccessful()) {
                     //TODO: error message
                     Log.d("retrofit",response.toString());
                 } else {
-                    //dataSet = response.body();
-                    mRepoData.setValue(response.body());
+                    dataset = response.body();
+                    developerData.setValue(response.body());
                     Log.d("retrofit", response.toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<RepoData>> call, Throwable t) {
-                //TODO: error message
+            public void onFailure(Call<List<DeveloperData>> call, Throwable t) {
                 Log.d("retrofit 123", t.getMessage());
                 isLoading.setValue(false);
             }
         });
-        if (mRepoData != null) {
 
-        }
-        return mRepoData;
+        return  developerData;
     }
 
     public MutableLiveData<Boolean> getIsLoading() {
         return isLoading;
     }
-
 }

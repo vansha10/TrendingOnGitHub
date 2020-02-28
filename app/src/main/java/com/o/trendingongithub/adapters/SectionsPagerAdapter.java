@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.o.trendingongithub.R;
+import com.o.trendingongithub.fragments.TrendingDeveloperFragment;
 import com.o.trendingongithub.fragments.TrendingRepositoriesFragment;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -28,8 +29,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new TrendingRepositoriesFragment();
             case 1:
-                //TODO: return new DeveloperFragment();
-                return new Fragment();
+                return new TrendingDeveloperFragment();
             default:
                 return null;
         }

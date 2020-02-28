@@ -2,18 +2,12 @@ package com.o.trendingongithub;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
 import com.o.trendingongithub.adapters.SectionsPagerAdapter;
-import com.o.trendingongithub.viewModel.PageViewModel;
 
 public class MainActivity extends AppCompatActivity {
 

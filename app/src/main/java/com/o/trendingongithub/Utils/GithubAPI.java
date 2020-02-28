@@ -1,5 +1,6 @@
 package com.o.trendingongithub.Utils;
 
+import com.o.trendingongithub.model.DeveloperData;
 import com.o.trendingongithub.model.RepoData;
 
 import java.util.List;
@@ -11,4 +12,7 @@ public interface GithubAPI {
 
     @GET("repositories")
     Call<List<RepoData>> getRepositories();
+
+    @GET("developers")
+    Call<List<DeveloperData>> getDevelopers();
 }

@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.o.trendingongithub.R;
-import com.o.trendingongithub.adapters.RecyclerViewAdapter;
+import com.o.trendingongithub.adapters.RepoRecyclerViewAdapter;
 import com.o.trendingongithub.model.RepoData;
-import com.o.trendingongithub.viewModel.PageViewModel;
+import com.o.trendingongithub.viewModel.RepoViewModel;
 
 import java.util.List;
 
@@ -32,22 +32,22 @@ public class TrendingRepositoriesFragment extends Fragment {
     private ProgressBar progressBar;
     private List<RepoData> dataset;
 
-    private PageViewModel pageViewModel;
+    private RepoViewModel repoViewModel;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
-        pageViewModel.init();
+        repoViewModel = ViewModelProviders.of(getActivity()).get(RepoViewModel.class);
+        repoViewModel.init();
     }
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_main, container, false);
-        pageViewModel.getRepoData().observe(getViewLifecycleOwner(), new Observer<List<RepoData>>() {
+        root = inflater.inflate(R.layout.fragment_trending_repo, container, false);
+        repoViewModel.getRepoData().observe(getViewLifecycleOwner(), new Observer<List<RepoData>>() {
             @Override
             public void onChanged(List<RepoData> repoData) {
                 Log.d("trending_fragmemnt",String.valueOf(repoData.size()));
@@ -57,7 +57,7 @@ public class TrendingRepositoriesFragment extends Fragment {
 
             }
         });
-        pageViewModel.getIsLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        repoViewModel.getIsLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
@@ -77,9 +77,9 @@ public class TrendingRepositoriesFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        dataset = pageViewModel.getRepoData().getValue();
+        dataset = repoViewModel.getRepoData().getValue();
         //sending Glide object here itself for displaying avatar and better lifecycle management
-        mAdapter = new RecyclerViewAdapter(Glide.with(this), dataset);
+        mAdapter = new RepoRecyclerViewAdapter(Glide.with(this), dataset);
         recyclerView.setAdapter(mAdapter);
 
         progressBar = root.findViewById(R.id.progress_bar);

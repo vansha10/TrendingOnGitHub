@@ -2,7 +2,6 @@ package com.o.trendingongithub.viewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.o.trendingongithub.dataRepository.RepoDataRepository;
@@ -10,7 +9,7 @@ import com.o.trendingongithub.model.RepoData;
 
 import java.util.List;
 
-public class PageViewModel extends ViewModel {
+public class RepoViewModel extends ViewModel {
 
     private MutableLiveData<List<RepoData>> mRepoData;
     private RepoDataRepository mRepo;
