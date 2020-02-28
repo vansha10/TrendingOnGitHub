@@ -1,6 +1,7 @@
 package com.o.trendingongithub.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class TrendingRepositoriesFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private List<RepoData> dataset;
 
     private PageViewModel pageViewModel;
 
@@ -33,7 +35,7 @@ public class TrendingRepositoriesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        pageViewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
         pageViewModel.init();
     }
 
@@ -45,6 +47,9 @@ public class TrendingRepositoriesFragment extends Fragment {
         pageViewModel.getRepoData().observe(getViewLifecycleOwner(), new Observer<List<RepoData>>() {
             @Override
             public void onChanged(List<RepoData> repoData) {
+                Log.d("trending_fragmemnt",String.valueOf(repoData.size()));
+                dataset.clear();
+                dataset.addAll(repoData);
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -58,7 +63,8 @@ public class TrendingRepositoriesFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new RecyclerViewAdapter(pageViewModel.getRepoData().getValue());
+        dataset = pageViewModel.getRepoData().getValue();
+        mAdapter = new RecyclerViewAdapter(dataset);
         recyclerView.setAdapter(mAdapter);
     }
 }

@@ -28,7 +28,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new TrendingRepositoriesFragment();
             case 1:
-                //TODO: return new Fragment();
+                //TODO: return new DeveloperFragment();
+                return new Fragment();
             default:
                 return null;
         }

@@ -49,6 +49,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
+        if (mDataset == null)
+            return 0;
         return mDataset.size();
     }
 }
