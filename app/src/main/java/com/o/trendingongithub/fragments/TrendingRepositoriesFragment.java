@@ -1,5 +1,6 @@
 package com.o.trendingongithub.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.o.trendingongithub.R;
+import com.o.trendingongithub.RepoDetailsActivity;
 import com.o.trendingongithub.Utils.RecyclerItemClickListener;
 import com.o.trendingongithub.adapters.RepoRecyclerViewAdapter;
 import com.o.trendingongithub.model.RepoData;
@@ -89,7 +92,11 @@ public class TrendingRepositoriesFragment extends Fragment {
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Toast.makeText(getContext(), dataset.get(position).getName(),Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), RepoDetailsActivity.class);
+                        Gson gson = new Gson();
+                        String objJson = gson.toJson(dataset.get(position));
+                        intent.putExtra("objJson", objJson);
+                        startActivity(intent);
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
