@@ -1,6 +1,8 @@
 package com.o.trendingongithub.fragments;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.o.trendingongithub.R;
+import com.o.trendingongithub.Utils.RecyclerItemClickListener;
 import com.o.trendingongithub.adapters.DeveloperRecyclerViewAdapter;
 import com.o.trendingongithub.model.DeveloperData;
 import com.o.trendingongithub.viewModel.DeveloperViewModel;
@@ -82,6 +86,21 @@ public class TrendingDeveloperFragment extends Fragment {
 
     private void initRecyclerView() {
         recyclerView =  root.findViewById(R.id.recycler_view);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(dataset.get(position).getUrl()));
+                        startActivity(i);
+                        Toast.makeText(getContext(), "Opening Profile on GitHub",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
 
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);

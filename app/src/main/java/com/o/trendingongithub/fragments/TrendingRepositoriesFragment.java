@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.o.trendingongithub.R;
+import com.o.trendingongithub.Utils.RecyclerItemClickListener;
 import com.o.trendingongithub.adapters.RepoRecyclerViewAdapter;
 import com.o.trendingongithub.model.RepoData;
 import com.o.trendingongithub.viewModel.RepoViewModel;
@@ -84,6 +86,18 @@ public class TrendingRepositoriesFragment extends Fragment {
     private void initRecyclerView() {
         recyclerView =  root.findViewById(R.id.recycler_view);
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Toast.makeText(getContext(), dataset.get(position).getName(),Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
+
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
@@ -101,27 +115,22 @@ public class TrendingRepositoriesFragment extends Fragment {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //Do some magic
                 filterData(query);
-
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //Do some magic
                 return false;
             }
         });
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                //Do some magic
             }
 
             @Override
             public void onSearchViewClosed() {
-                //Do some magic
                 mAdapter.updateList(repoViewModel.getRepoData().getValue());
             }
         });
@@ -145,6 +154,5 @@ public class TrendingRepositoriesFragment extends Fragment {
         }
         mAdapter.updateList(temp);
     }
-
 
 }
