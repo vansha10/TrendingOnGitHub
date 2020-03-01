@@ -9,31 +9,32 @@
         android:id="@+id/repo_avatar"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:layout_gravity="center"
         android:layout_margin="4dp"
-        android:src="@drawable/avatar_placeholder"
-        android:layout_gravity="center"/>
+        android:src="@drawable/avatar_placeholder" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/repo_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="24sp"
+            android:text="name"
             android:textColor="@color/black"
-            android:text="name" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/repo_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="author" />
+            android:text="author"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,17 +42,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|start"
         android:gravity="center|start">
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/star_icon"/>
+            android:src="@drawable/star_icon" />
+
         <TextView
             android:id="@+id/repo_stars"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1234"
-            android:textSize="16sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>
