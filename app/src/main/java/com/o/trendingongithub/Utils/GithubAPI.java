@@ -10,6 +10,8 @@ import retrofit2.http.GET;
 
 public interface GithubAPI {
 
+    String BASE_URL = "https://github-trending-api.now.sh/";
+
     @GET("repositories")
     Call<List<RepoData>> getRepositories();
 

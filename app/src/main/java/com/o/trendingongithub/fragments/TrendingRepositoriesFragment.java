@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -32,6 +30,7 @@ import com.o.trendingongithub.viewModel.RepoViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TrendingRepositoriesFragment extends Fragment {
 
@@ -50,7 +49,7 @@ public class TrendingRepositoriesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repoViewModel = ViewModelProviders.of(getActivity()).get(RepoViewModel.class);
+        repoViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(RepoViewModel.class);
         repoViewModel.init();
         setHasOptionsMenu(true);
     }
@@ -64,7 +63,7 @@ public class TrendingRepositoriesFragment extends Fragment {
         repoViewModel.getRepoData().observe(getViewLifecycleOwner(), new Observer<List<RepoData>>() {
             @Override
             public void onChanged(List<RepoData> repoData) {
-                Log.d("trending_fragmemnt",String.valueOf(repoData.size()));
+                Log.d("trending_fragmemnt", String.valueOf(repoData.size()));
                 dataset.clear();
                 dataset.addAll(repoData);
                 mAdapter.notifyDataSetChanged();
@@ -87,11 +86,12 @@ public class TrendingRepositoriesFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        recyclerView =  root.findViewById(R.id.recycler_view);
+        recyclerView = root.findViewById(R.id.recycler_view);
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         Intent intent = new Intent(getContext(), RepoDetailsActivity.class);
                         Gson gson = new Gson();
                         String objJson = gson.toJson(dataset.get(position));
@@ -99,7 +99,8 @@ public class TrendingRepositoriesFragment extends Fragment {
                         startActivity(intent);
                     }
 
-                    @Override public void onLongItemClick(View view, int position) {
+                    @Override
+                    public void onLongItemClick(View view, int position) {
 
                     }
                 })
@@ -117,7 +118,7 @@ public class TrendingRepositoriesFragment extends Fragment {
     }
 
     private void initSearchView() {
-        View view = getActivity().findViewById(R.id.viewid);
+        View view = Objects.requireNonNull(getActivity()).findViewById(R.id.viewid);
         searchView = view.findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -144,9 +145,9 @@ public class TrendingRepositoriesFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
 
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
@@ -155,7 +156,7 @@ public class TrendingRepositoriesFragment extends Fragment {
     private void filterData(String text) {
         List<RepoData> temp = new ArrayList<>();
         for (RepoData rd : dataset) {
-            if(rd.getName().toLowerCase().contains(text) ||
+            if (rd.getName().toLowerCase().contains(text) ||
                     rd.getAuthor().toLowerCase().contains(text))
                 temp.add(rd);
         }

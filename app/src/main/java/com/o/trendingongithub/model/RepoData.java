@@ -21,6 +21,7 @@ public class RepoData {
         this.stars = stars;
         this.forks = forks;
     }
+
     public String getName() {
         return name;
     }

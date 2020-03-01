@@ -1,8 +1,8 @@
 package com.o.trendingongithub.viewModel;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.LiveData;
 
 import com.o.trendingongithub.dataRepository.DeveloperDataRepository;
 import com.o.trendingongithub.model.DeveloperData;
@@ -17,7 +17,7 @@ public class DeveloperViewModel extends ViewModel {
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     public void init() {
-        if (mDeveloperData != null){
+        if (mDeveloperData != null) {
             return;
         }
         mDeveloper = DeveloperDataRepository.getInstance();
@@ -27,7 +27,7 @@ public class DeveloperViewModel extends ViewModel {
     public LiveData<List<DeveloperData>> getDeveloperData() {
         if (mDeveloperData == null) {
             List<DeveloperData> list = new ArrayList<>();
-            list.add(new DeveloperData("","","",""));
+            list.add(new DeveloperData("", "", "", ""));
             mDeveloperData.setValue(list);
         }
         return mDeveloperData;

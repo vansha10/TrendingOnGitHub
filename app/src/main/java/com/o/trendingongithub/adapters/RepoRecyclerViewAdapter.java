@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
@@ -15,29 +16,15 @@ import com.o.trendingongithub.model.RepoData;
 import java.util.List;
 
 public class RepoRecyclerViewAdapter extends RecyclerView.Adapter<RepoRecyclerViewAdapter.MyViewHolder> {
-    private List<RepoData> mDataset;
     private final RequestManager glide;
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView nameTextView;
-        public TextView authorTextView;
-        public ImageView avatarImageView;
-        public TextView starsTextView;
-        public MyViewHolder(View v) {
-            super(v);
-            nameTextView = v.findViewById(R.id.repo_name);
-            authorTextView = v.findViewById(R.id.repo_author);
-            avatarImageView = v.findViewById(R.id.repo_avatar);
-            starsTextView = v.findViewById(R.id.repo_stars);
-        }
-    }
+    private List<RepoData> mDataset;
 
     public RepoRecyclerViewAdapter(RequestManager glide, List<RepoData> myDataset) {
         this.glide = glide;
         mDataset = myDataset;
     }
 
+    @NonNull
     @Override
     public RepoRecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                                    int viewType) {
@@ -46,8 +33,7 @@ public class RepoRecyclerViewAdapter extends RecyclerView.Adapter<RepoRecyclerVi
                 .inflate(R.layout.repo_list_item, parent, false);
 
 
-        MyViewHolder vh = new MyViewHolder(v);
-        return vh;
+        return new MyViewHolder(v);
     }
 
     @Override
@@ -70,5 +56,21 @@ public class RepoRecyclerViewAdapter extends RecyclerView.Adapter<RepoRecyclerVi
         mDataset.clear();
         mDataset.addAll(newList);
         notifyDataSetChanged();
+    }
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView nameTextView;
+        public TextView authorTextView;
+        public ImageView avatarImageView;
+        public TextView starsTextView;
+
+        public MyViewHolder(View v) {
+            super(v);
+            nameTextView = v.findViewById(R.id.repo_name);
+            authorTextView = v.findViewById(R.id.repo_author);
+            avatarImageView = v.findViewById(R.id.repo_avatar);
+            starsTextView = v.findViewById(R.id.repo_stars);
+        }
     }
 }
