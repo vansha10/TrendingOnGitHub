@@ -10,17 +10,18 @@ import com.o.trendingongithub.model.DeveloperData;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class DeveloperViewModel extends ViewModel {
 
     private MutableLiveData<List<DeveloperData>> mDeveloperData;
     private DeveloperDataRepository mDeveloper;
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    public void init() {
-        if (mDeveloperData != null) {
-            return;
-        }
-        mDeveloper = DeveloperDataRepository.getInstance();
+
+    @Inject
+    public DeveloperViewModel(DeveloperDataRepository mDeveloper) {
+        this.mDeveloper = mDeveloper;
         mDeveloperData = mDeveloper.getDeveloperData();
     }
 

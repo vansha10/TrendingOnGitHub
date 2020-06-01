@@ -9,7 +9,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.o.trendingongithub.adapters.SectionsPagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class MainActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

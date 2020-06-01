@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -27,12 +28,17 @@ import com.o.trendingongithub.Utils.RecyclerItemClickListener;
 import com.o.trendingongithub.adapters.RepoRecyclerViewAdapter;
 import com.o.trendingongithub.model.RepoData;
 import com.o.trendingongithub.viewModel.RepoViewModel;
+import com.o.trendingongithub.viewModel.ViewModelProviderFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class TrendingRepositoriesFragment extends Fragment {
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
+public class TrendingRepositoriesFragment extends DaggerFragment {
 
     private View root;
 
@@ -45,20 +51,20 @@ public class TrendingRepositoriesFragment extends Fragment {
 
     private RepoViewModel repoViewModel;
 
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repoViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(RepoViewModel.class);
-        repoViewModel.init();
         setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_trending_repo, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        repoViewModel = ViewModelProviders.of(this, viewModelProviderFactory).get(RepoViewModel.class);
 
         repoViewModel.getRepoData().observe(getViewLifecycleOwner(), new Observer<List<RepoData>>() {
             @Override
@@ -82,6 +88,13 @@ public class TrendingRepositoriesFragment extends Fragment {
         });
         initRecyclerView();
         initSearchView();
+    }
+
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        root = inflater.inflate(R.layout.fragment_trending_repo, container, false);
         return root;
     }
 

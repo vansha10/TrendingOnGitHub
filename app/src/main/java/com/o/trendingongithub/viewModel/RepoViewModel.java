@@ -9,17 +9,17 @@ import com.o.trendingongithub.model.RepoData;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class RepoViewModel extends ViewModel {
 
     private MutableLiveData<List<RepoData>> mRepoData;
     private RepoDataRepository mRepo;
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    public void init() {
-        if (mRepoData != null) {
-            return;
-        }
-        mRepo = RepoDataRepository.getInstance();
+    @Inject
+    public RepoViewModel(RepoDataRepository repoDataRepository) {
+        this.mRepo = repoDataRepository;
         mRepoData = mRepo.getRepoData();
     }
 

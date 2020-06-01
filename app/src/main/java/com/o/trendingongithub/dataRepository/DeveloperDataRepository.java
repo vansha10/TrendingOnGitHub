@@ -12,31 +12,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Singleton
 public class DeveloperDataRepository {
 
-    private static DeveloperDataRepository instance;
     private MutableLiveData<List<DeveloperData>> developerData = new MutableLiveData<>();
     private List<DeveloperData> dataset = new ArrayList<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+
     private GithubAPI githubAPI;
 
-    public DeveloperDataRepository() {
+    @Inject
+    public DeveloperDataRepository(GithubAPI githubAPI) {
         //placeholder values
         dataset.add(new DeveloperData("", "", "", ""));
         developerData.setValue(dataset);
-        githubAPI = RetrofitService.createService(GithubAPI.class);
+        this.githubAPI = githubAPI;
     }
 
-    public static DeveloperDataRepository getInstance() {
-        if (instance == null) {
-            instance = new DeveloperDataRepository();
-        }
-        return instance;
-    }
 
     public MutableLiveData<List<DeveloperData>> getDeveloperData() {
 
