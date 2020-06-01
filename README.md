@@ -4,10 +4,11 @@ An android app to show Trending Repostories and Developers on GitHub.
 **Architecture:** MVVM
 
 **Libraries used:**  
-1. **Retrofit:** For API calls to GitHub API  
-2. **Glide:** For Image Loading from url.  
-3. **MaterialSearchView:** For implementing local  search of repositories.
-4. **JUnit:** For unit testing.
+1. **Retrofit:** For API calls to GitHub API
+2. **Dagger 2:** For Dependency Injection
+3. **Glide:** For Image Loading from url.
+4. **MaterialSearchView:** For implementing local  search of repositories.
+5. **JUnit:** For unit testing.
 
 ## Screenshots
 ![Repository Tab](/screenshots/device-2020-03-01-150831.png?raw=true "Repository Tab")  
