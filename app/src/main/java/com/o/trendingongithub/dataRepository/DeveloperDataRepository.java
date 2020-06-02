@@ -23,7 +23,6 @@ import retrofit2.Response;
 public class DeveloperDataRepository {
 
     private MutableLiveData<List<DeveloperData>> developerData = new MutableLiveData<>();
-    private List<DeveloperData> dataset = new ArrayList<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     private GithubAPI githubAPI;
@@ -33,9 +32,7 @@ public class DeveloperDataRepository {
         this.githubAPI = githubAPI;
     }
 
-
     public MutableLiveData<List<DeveloperData>> getDeveloperData() {
-
         isLoading.setValue(true);
 
         Call<List<DeveloperData>> call = githubAPI.getDevelopers();
@@ -47,7 +44,6 @@ public class DeveloperDataRepository {
                 if (!response.isSuccessful()) {
                     Log.d("retrofit", response.toString());
                 } else {
-                    dataset = response.body();
                     developerData.setValue(response.body());
                     Log.d("retrofit", response.toString());
                 }

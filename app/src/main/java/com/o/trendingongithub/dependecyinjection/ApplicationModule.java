@@ -31,6 +31,12 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
+    static GithubAPI providesGitHubApi(Retrofit retrofit) {
+        return retrofit.create(GithubAPI.class);
+    }
+
+    @Singleton
+    @Provides
     static RequestOptions provideRequestOption() {
         return RequestOptions.placeholderOf(R.drawable.avatar_placeholder)
                 .error(R.drawable.ic_launcher_foreground);
@@ -41,12 +47,6 @@ public class ApplicationModule {
     static RequestManager provideGlideInstance(Application application, RequestOptions requestOptions) {
         return Glide.with(application)
                 .setDefaultRequestOptions(requestOptions);
-    }
-
-    @Singleton
-    @Provides
-    static GithubAPI providesGitHubApi(Retrofit retrofit) {
-        return retrofit.create(GithubAPI.class);
     }
 
     @Singleton

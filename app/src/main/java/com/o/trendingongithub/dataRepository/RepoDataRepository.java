@@ -23,17 +23,14 @@ import retrofit2.Response;
 public class RepoDataRepository {
 
     private MutableLiveData<List<RepoData>> mRepoData = new MutableLiveData<>();
-    private List<RepoData> dataSet = new ArrayList<>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     private  GithubAPI githubAPI;
-
 
     @Inject
     public RepoDataRepository(GithubAPI githubAPI) {
         this.githubAPI = githubAPI;
     }
-
 
     public MutableLiveData<List<RepoData>> getRepoData() {
 
@@ -48,7 +45,6 @@ public class RepoDataRepository {
                 if (!response.isSuccessful()) {
                     Log.d("retrofit", response.toString());
                 } else {
-                    //dataSet = response.body();
                     mRepoData.setValue(response.body());
                     Log.d("retrofit", response.toString());
                 }
