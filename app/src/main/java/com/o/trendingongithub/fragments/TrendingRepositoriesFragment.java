@@ -43,17 +43,18 @@ public class TrendingRepositoriesFragment extends DaggerFragment {
     private View root;
 
     private RecyclerView recyclerView;
-    private RepoRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ProgressBar progressBar;
-    private List<RepoData> dataset;
+    private List<RepoData> dataset = new ArrayList<>();
     private MaterialSearchView searchView;
 
     private RepoViewModel repoViewModel;
 
     @Inject
-    ViewModelProviderFactory viewModelProviderFactory;
+    RepoRecyclerViewAdapter mAdapter;
 
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,10 +70,13 @@ public class TrendingRepositoriesFragment extends DaggerFragment {
         repoViewModel.getRepoData().observe(getViewLifecycleOwner(), new Observer<List<RepoData>>() {
             @Override
             public void onChanged(List<RepoData> repoData) {
-                Log.d("trending_fragmemnt", String.valueOf(repoData.size()));
-                dataset.clear();
-                dataset.addAll(repoData);
-                mAdapter.notifyDataSetChanged();
+                if (repoData != null) {
+                    Log.d("trending_fragmemnt", String.valueOf(repoData.size()));
+                    dataset.clear();
+                    dataset.addAll(repoData);
+                    mAdapter.setmDataset(repoData);
+                    mAdapter.notifyDataSetChanged();
+                }
 
             }
         });
@@ -121,11 +125,6 @@ public class TrendingRepositoriesFragment extends DaggerFragment {
 
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-
-        dataset = repoViewModel.getRepoData().getValue();
-        //sending Glide object here itself for displaying avatar and better lifecycle management
-        mAdapter = new RepoRecyclerViewAdapter(Glide.with(this));
-        mAdapter.setmDataset(dataset);
         recyclerView.setAdapter(mAdapter);
 
         progressBar = root.findViewById(R.id.progress_bar);

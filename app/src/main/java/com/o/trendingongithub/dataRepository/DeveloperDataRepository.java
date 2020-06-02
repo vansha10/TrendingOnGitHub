@@ -30,9 +30,6 @@ public class DeveloperDataRepository {
 
     @Inject
     public DeveloperDataRepository(GithubAPI githubAPI) {
-        //placeholder values
-        dataset.add(new DeveloperData("", "", "", ""));
-        developerData.setValue(dataset);
         this.githubAPI = githubAPI;
     }
 

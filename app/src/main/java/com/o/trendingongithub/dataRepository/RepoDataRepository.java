@@ -31,9 +31,6 @@ public class RepoDataRepository {
 
     @Inject
     public RepoDataRepository(GithubAPI githubAPI) {
-        //placeholder data
-        dataSet.add(new RepoData("", "", "", "", "", "", 0, 0));
-        mRepoData.setValue(dataSet);
         this.githubAPI = githubAPI;
     }
 

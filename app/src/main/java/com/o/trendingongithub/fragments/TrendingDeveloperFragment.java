@@ -45,12 +45,14 @@ public class TrendingDeveloperFragment extends DaggerFragment {
     private View root;
 
     private RecyclerView recyclerView;
-    private DeveloperRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ProgressBar progressBar;
     private List<DeveloperData> dataset = new ArrayList<>();
 
     private DeveloperViewModel developerViewModel;
+
+    @Inject
+    DeveloperRecyclerViewAdapter mAdapter;
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -68,10 +70,11 @@ public class TrendingDeveloperFragment extends DaggerFragment {
         developerViewModel.getDeveloperData().observe(getViewLifecycleOwner(), new Observer<List<DeveloperData>>() {
             @Override
             public void onChanged(List<DeveloperData> developerData) {
-                Log.d("trending_fragmemnt", String.valueOf(developerData.size()));
-                if (dataset != null) {
+                if (developerData != null) {
+                    Log.d("trending_fragmemnt", String.valueOf(developerData.size()));
                     dataset.clear();
                     dataset.addAll(developerData);
+                    mAdapter.setmDataset(developerData);
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -122,10 +125,6 @@ public class TrendingDeveloperFragment extends DaggerFragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        dataset = developerViewModel.getDeveloperData().getValue();
-        //sending Glide object here itself for displaying avatar and better lifecycle management
-        mAdapter = new DeveloperRecyclerViewAdapter(Glide.with(this));
-        mAdapter.setmDataset(dataset);
         recyclerView.setAdapter(mAdapter);
 
         progressBar = root.findViewById(R.id.progress_bar);
