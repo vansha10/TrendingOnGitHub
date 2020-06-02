@@ -11,12 +11,20 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.gson.Gson;
 import com.o.trendingongithub.model.RepoData;
 
-public class RepoDetailsActivity extends AppCompatActivity {
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class RepoDetailsActivity extends DaggerAppCompatActivity {
 
     private RepoData repoData;
+
+    @Inject
+    RequestManager glide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +45,20 @@ public class RepoDetailsActivity extends AppCompatActivity {
         TextView descriptionTextView = findViewById(R.id.repo_details_description);
         LinearLayout openInGithubButton = findViewById(R.id.open_in_github);
 
-        Glide.with(this).load(repoData.getAvatarUrl()).
+        glide.load(repoData.getAvatarUrl()).
                 placeholder(R.drawable.avatar_placeholder).into(avatarImageView);
+
         nameTextView.setText(repoData.getName());
         authorTextView.setText(repoData.getAuthor());
         languageTextView.setText(repoData.getLanguage());
+
         if (repoData.getLanguage() == null)
             languageTextView.setVisibility(View.GONE);
+
         starsTextView.setText(String.valueOf(repoData.getStars()));
         forksTextView.setText(String.valueOf(repoData.getForks()));
         descriptionTextView.setText(repoData.getDescription());
+
         openInGithubButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

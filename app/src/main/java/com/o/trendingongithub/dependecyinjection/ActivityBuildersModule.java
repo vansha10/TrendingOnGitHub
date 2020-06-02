@@ -1,6 +1,7 @@
 package com.o.trendingongithub.dependecyinjection;
 
 import com.o.trendingongithub.MainActivity;
+import com.o.trendingongithub.RepoDetailsActivity;
 import com.o.trendingongithub.dependecyinjection.main.FragmentBuildersModule;
 import com.o.trendingongithub.dependecyinjection.main.MainModule;
 import com.o.trendingongithub.dependecyinjection.main.MainViewModelsModule;
@@ -17,5 +18,8 @@ public abstract class ActivityBuildersModule {
             MainViewModelsModule.class
     })
     abstract MainActivity contributeMainActivity();
+
+    @ContributesAndroidInjector
+    abstract RepoDetailsActivity contributeRepoDetailsActivity();
 
 }
