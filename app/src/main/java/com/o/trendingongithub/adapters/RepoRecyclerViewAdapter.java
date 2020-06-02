@@ -15,13 +15,19 @@ import com.o.trendingongithub.model.RepoData;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class RepoRecyclerViewAdapter extends RecyclerView.Adapter<RepoRecyclerViewAdapter.MyViewHolder> {
     private final RequestManager glide;
     private List<RepoData> mDataset;
 
-    public RepoRecyclerViewAdapter(RequestManager glide, List<RepoData> myDataset) {
+    @Inject
+    public RepoRecyclerViewAdapter(RequestManager glide) {
         this.glide = glide;
-        mDataset = myDataset;
+    }
+
+    public void setmDataset(List<RepoData> mDataset) {
+        this.mDataset = mDataset;
     }
 
     @NonNull

@@ -45,7 +45,7 @@ public class TrendingDeveloperFragment extends DaggerFragment {
     private View root;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private DeveloperRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ProgressBar progressBar;
     private List<DeveloperData> dataset = new ArrayList<>();
@@ -124,7 +124,8 @@ public class TrendingDeveloperFragment extends DaggerFragment {
 
         dataset = developerViewModel.getDeveloperData().getValue();
         //sending Glide object here itself for displaying avatar and better lifecycle management
-        mAdapter = new DeveloperRecyclerViewAdapter(Glide.with(this), dataset);
+        mAdapter = new DeveloperRecyclerViewAdapter(Glide.with(this));
+        mAdapter.setmDataset(dataset);
         recyclerView.setAdapter(mAdapter);
 
         progressBar = root.findViewById(R.id.progress_bar);

@@ -15,13 +15,19 @@ import com.o.trendingongithub.model.DeveloperData;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class DeveloperRecyclerViewAdapter extends RecyclerView.Adapter<DeveloperRecyclerViewAdapter.MyViewHolder> {
     private final RequestManager glide;
     private List<DeveloperData> mDataset;
 
-    public DeveloperRecyclerViewAdapter(RequestManager glide, List<DeveloperData> myDataset) {
+    @Inject
+    public DeveloperRecyclerViewAdapter(RequestManager glide) {
         this.glide = glide;
-        mDataset = myDataset;
+    }
+
+    public void setmDataset(List<DeveloperData> mDataset) {
+        this.mDataset = mDataset;
     }
 
     @NonNull

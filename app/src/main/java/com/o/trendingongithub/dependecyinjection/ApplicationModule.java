@@ -5,6 +5,7 @@ import android.app.Application;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.o.trendingongithub.R;
 import com.o.trendingongithub.Utils.GithubAPI;
 import com.o.trendingongithub.dataRepository.DeveloperDataRepository;
 import com.o.trendingongithub.dataRepository.RepoDataRepository;
@@ -26,6 +27,13 @@ public class ApplicationModule {
                 .baseUrl(GithubAPI.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+    }
+
+    @Singleton
+    @Provides
+    static RequestOptions provideRequestOption() {
+        return RequestOptions.placeholderOf(R.drawable.avatar_placeholder)
+                .error(R.drawable.ic_launcher_foreground);
     }
 
     @Singleton

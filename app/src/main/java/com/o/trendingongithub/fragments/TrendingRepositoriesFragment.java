@@ -124,7 +124,8 @@ public class TrendingRepositoriesFragment extends DaggerFragment {
 
         dataset = repoViewModel.getRepoData().getValue();
         //sending Glide object here itself for displaying avatar and better lifecycle management
-        mAdapter = new RepoRecyclerViewAdapter(Glide.with(this), dataset);
+        mAdapter = new RepoRecyclerViewAdapter(Glide.with(this));
+        mAdapter.setmDataset(dataset);
         recyclerView.setAdapter(mAdapter);
 
         progressBar = root.findViewById(R.id.progress_bar);
