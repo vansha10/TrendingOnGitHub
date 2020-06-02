@@ -27,19 +27,4 @@ public abstract class MainModule {
         return new RepoRecyclerViewAdapter(glide);
     }
 
-    @Provides
-    static GithubAPI providesGitHubApi(Retrofit retrofit) {
-        return retrofit.create(GithubAPI.class);
-    }
-
-    @Provides
-    static DeveloperDataRepository providesDeveloperDataRepository(GithubAPI githubAPI) {
-        return new DeveloperDataRepository(githubAPI);
-    }
-
-    @Provides
-    static RepoDataRepository providesRepoDataRepository(GithubAPI githubAPI) {
-        return new RepoDataRepository(githubAPI);
-    }
-
 }

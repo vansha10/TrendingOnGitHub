@@ -42,4 +42,22 @@ public class ApplicationModule {
         return Glide.with(application)
                 .setDefaultRequestOptions(requestOptions);
     }
+
+    @Singleton
+    @Provides
+    static GithubAPI providesGitHubApi(Retrofit retrofit) {
+        return retrofit.create(GithubAPI.class);
+    }
+
+    @Singleton
+    @Provides
+    static DeveloperDataRepository providesDeveloperDataRepository(GithubAPI githubAPI) {
+        return new DeveloperDataRepository(githubAPI);
+    }
+
+    @Singleton
+    @Provides
+    static RepoDataRepository providesRepoDataRepository(GithubAPI githubAPI) {
+        return new RepoDataRepository(githubAPI);
+    }
 }
